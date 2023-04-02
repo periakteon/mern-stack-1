@@ -11,7 +11,7 @@ const Auth = () => {
         <h1 className='text-2xl font-sans text-gray-700'>BLOG</h1>
         <div className='flex flex-col space-y-3 my-5 '>
           {
-            // signUp true dönüyorsa, username inputu gösterilecek, false dönüyorsa gösterilmeyecek.
+          // signUp true dönüyorsa, username inputu gösterilecek, false dönüyorsa gösterilmeyecek.
           signUp && <input type='text' placeholder='Username' className='input-style'/>
           }
           <input type='text' placeholder='E-mail' className='input-style'/>
@@ -20,7 +20,7 @@ const Auth = () => {
         <div className='text-indigo-900 text-xs flex justify-center cursor-pointer mb-4'>
           {
             // signUp true dönüyorsa, kayıt olmak için tıklayınız yazacak, false dönüyorsa giriş yapmak için tıklayınız yazacak.
-            signUp ? <span>Zaten bir hesabınız var mı? Giriş yapmak için tıklayınız.</span> : <span>Hesabınız yok mu? Kayıt olmak için tıklayınız.</span>
+            signUp ? <span onClick={() => setSignUp(false)}>Zaten bir hesabınız var mı? Giriş yapmak için tıklayınız.</span> : <span onClick={() => setSignUp(true)}>Hesabınız yok mu? Kayıt olmak için tıklayınız.</span>
           }
           </div>
         <div>
