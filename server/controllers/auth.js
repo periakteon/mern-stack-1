@@ -8,32 +8,26 @@ const register = async (req, res) => {
 
     //tüm alanların doldurulup doldurulmadığını kontrol ediyoruz. eğer dolu değilse hata döndürüyoruz
     if (!username || !email || !password) {
-      res.status(400).json({ message: 'Lütfen tüm alanları doldurun.' });
+      return res.status(400).json({ message: 'Lütfen tüm alanları doldurun.' });
     }
 
     // aynı email adresinin kullanılıp kullanılmadığını kontrol et
-    const user = await AuthSchema.findOne(email);
+    const user = await AuthSchema.findOne({email: email});
 
     if (user) {
       return res.status(400).json({ message: 'Böyle bir kullanıcı var.' });
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: 'Parola en az 6 karakter olmalı.' });
+      return res.status(400).json({ message: 'Parola en az 6 karakter olmalı.' });
     }
 
     if (username.length < 3) {
-      return res
-        .status(400)
-        .json({ message: 'Kullanıcı adı en az 3 karakter olmalı.' });
+      return res.status(400).json({ message: 'Kullanıcı adı en az 3 karakter olmalı.' });
     }
 
     if (username.includes(' ')) {
-      return res
-        .status(400)
-        .json({ message: 'Kullanıcı adı boşluk içeremez.' });
+      return res.status(400).json({ message: 'Kullanıcı adı boşluk içeremez.' });
     }
 
     // eğer e-mail değilse hata mesajı döndür (aşağıdaki isEmail fonksiyonunu kullandık)
@@ -49,18 +43,12 @@ const register = async (req, res) => {
       email: email,
       password: passwordHash,
     });
-    
-    if (newUser) {
-      res.status(201).json({ _id: newUser.id, email: newUser.email });
-    }
 
-    const accessToken = jwt.sign( { id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign( { id: newUser._id }, process.env.JWT_SECRET, {expiresIn: '1h',});
 
     res.status(200).json({
       newUser,
-      accessToken,
+      token,
     });
 
     console.log('Yeni kullanıcı başarıyla oluşturuldu: ', newUser);
@@ -71,8 +59,28 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    const { email, password } = req.body;
+    const user = await AuthSchema.findOne(email);
+    
+    if (!user) {
+      return res.status(400).json({ message: 'Böyle bir kullanıcı yok.' });
+    }
+
+    const passwordCompare = await bcrypt.compare(password, user.password);
+
+    if (!passwordCompare) {
+      return res.status(400).json({ message: 'Parola yanlış.' });
+    }
+
+    const token = jwt.sign( { id: user._id }, process.env.JWT_SECRET, {expiresIn: '1h',});
+
+    res.status(200).json({
+      user,
+      token,
+    });
+
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ message: error.message });
   }
 };
 
