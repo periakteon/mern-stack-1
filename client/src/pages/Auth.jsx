@@ -27,7 +27,7 @@ const Auth = () => {
 
   console.log("authData: ", authData);
   return (
-    <div className='bg-gradient-to-r from-sky-500 to-indigo-500 w-full h-screen bg-gray-100 flex items-center justify-center fixed top-0 right-0 bottom-0 left-0 z-50'>
+    <div className='bg-gradient-to-r from-sky-500 to-indigo-500 w-full h-screen bg-gray-100 flex items-center justify-center'>
       <div className='w-1/3 bg-white rounded-md p-3 shadow-md overflow-hidden'>
         <h1 className='text-2xl font-sans font-bold text-indigo-700'>
           {
