@@ -5,7 +5,7 @@ export const registerAction = (authData) => async (dispatch) => {
   try {
     const { data } = await axios.post('http://localhost:5001/register', authData);
     dispatch({ type: 'REGISTER', payload: data });
-    toast.success('Üye kaydı başarılı!', {
+    toast.success(`Üye kaydı başarılı. Hoşgeldin ${authData.username}!`, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -38,7 +38,7 @@ export const loginAction = (authData) => async (dispatch) => {
     dispatch({ type: 'LOGIN', payload: data });
     toast.success('Üye girişi başarılı!', {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
