@@ -8,7 +8,11 @@ const Auth = () => {
   return (
     <div className='w-full h-screen bg-gray-100 flex items-center justify-center fixed top-0 right-0 bottom-0 left-0 z-50'>
       <div className='w-1/3 bg-white rounded-md p-3'>
-        <h1 className='text-2xl font-sans text-gray-700'>BLOG</h1>
+        <h1 className='text-2xl font-sans text-gray-700'>
+          {
+            signUp ? 'Kayıt Ol' : 'Giriş Yap'
+          }
+        </h1>
         <div className='flex flex-col space-y-3 my-5 '>
           {
           // signUp true dönüyorsa, username inputu gösterilecek, false dönüyorsa gösterilmeyecek.
