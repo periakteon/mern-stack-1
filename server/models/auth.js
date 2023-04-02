@@ -19,7 +19,6 @@ const AuthSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Şifre eklemek zorunludur.'],
     minlength: 6,
-    select: false,
   },
   date: {
     type: Date,

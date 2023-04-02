@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
+import { loginAction, registerAction } from '../redux/actions/auth';
+import { useDispatch } from 'react-redux';
 
 const Auth = () => {
 
   const [signUp, setSignUp] = useState(true);
 
   const [authData, setAuthData] = useState({username: '', email: '', password: ''});
+
+  const dispatch = useDispatch();
   
   const onChangeFunction = (e) => {
     // The setAuthData function updates the authData state object by creating a new object using the spread operator (...) to copy all the properties of the existing authData object, then setting the property with the name of the input field ([e.target.name]) to the value of the input field (e.target.value).
     // For example, if the input field with name username had a value of "JohnDoe", then setAuthData({...authData, [e.target.name]: e.target.value}); would update the authData state to {username: 'JohnDoe', email: '', password: ''}.
     setAuthData({...authData, [e.target.name]: e.target.value});
   }
+
+  const authFunction = () => {
+
+    if (signUp) {
+      dispatch(registerAction(authData));
+    }else {
+      dispatch(loginAction(authData));
+    }
+  };
+
   console.log("authData: ", authData);
   return (
     <div className='bg-gradient-to-r from-sky-500 to-indigo-500 w-full h-screen bg-gray-100 flex items-center justify-center fixed top-0 right-0 bottom-0 left-0 z-50'>
@@ -36,7 +50,7 @@ const Auth = () => {
           }
           </div>
         <div>
-          <button className='cursor-pointer hover:bg-indigo-800 active:bg-indigo-500 w-full p-2 text-center bg-indigo-600 text-white rounded-md focus:outline-none focus:shadow-outline transition duration-300'>
+          <button onClick={authFunction} className='cursor-pointer hover:bg-indigo-800 active:bg-indigo-500 w-full p-2 text-center bg-indigo-600 text-white rounded-md focus:outline-none focus:shadow-outline transition duration-300'>
             {
             // signUp true dönüyorsa, kayıt ol yazacak; false dönüyorsa giriş yap yazacak.
             signUp ? 'Kayıt Ol' : 'Giriş Yap'

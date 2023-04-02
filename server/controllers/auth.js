@@ -1,5 +1,6 @@
 const AuthSchema = require('../models/auth.js');
-const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv').config();
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
@@ -60,7 +61,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await AuthSchema.findOne(email);
+    const user = await AuthSchema.findOne({email: email});
     
     if (!user) {
       return res.status(400).json({ message: 'Böyle bir kullanıcı yok.' });
@@ -75,6 +76,7 @@ const login = async (req, res) => {
     const token = jwt.sign( { id: user._id }, process.env.JWT_SECRET, {expiresIn: '1h',});
 
     res.status(200).json({
+      message: 'Başarıyla giriş yapıldı.',
       user,
       token,
     });

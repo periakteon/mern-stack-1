@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const database = require('./config/database');
 const dotenv = require('dotenv').config();
 const app = express();
+const authRouter = require('./routes/auth.js');
 
 app.use (cors());
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+app.use('/', authRouter);
 
 database();
 
