@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 const authRouter = require('./routes/auth.js');
+const postRouter = require('./routes/post.js');
 
 
 const startApp = async () => {
@@ -27,3 +28,4 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
 app.use('/', authRouter);
+app.use('/', postRouter);

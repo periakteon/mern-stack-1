@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,13 +23,12 @@ function App() {
       
       {/* Eğer localStorage'da token varsa Navbar'ı göster */}
       {token && token.token && <Navbar/>}
-
       {/* Eğer modal state'i true ise Modal'ı göster */}
       {modal && <Modal/>}
         <Routes>
           {/* Eğer localStorage'da token YOKSA (!), '/auth' adresine yönlendir; varsa Home'da tut */}
-          <Route path='/' element={!token || !token.token ? <Auth /> : <Link to={'/'} />} />
-          <Route path='/auth' element={token && token.token ? <Link to={'/'}/> : <Auth />} />
+          <Route path='/' element={ !token || !token.token ? <Navigate to='/auth'/> : <Home/> } />
+          <Route path='/auth' element={ token && token.token ? <Navigate to='/'/> : <Auth /> } />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
